@@ -12,7 +12,7 @@ struct node
 {
 		struct node *next;
 		
-    int index,arrivalTime,Burest,priority;
+    int index,arrival,burst,priority; 
 };
 struct node * Creat_Node(int, int, int,int);
 struct node * Back(struct node *,int,int, int,int);
@@ -62,7 +62,7 @@ switch(sMethod)
 {
 case 1:{
 struct node *h=NULL;
-h=Read(h);
+h=ReadF(h);
 FCFS(h); 	
 }			
 break;
@@ -80,7 +80,7 @@ switch(select)
 case 1:
 {
 struct node *h=NULL;
-h=Read(h);
+h=ReadF(h);
 SJF(h);
 }
 break;
@@ -109,7 +109,7 @@ switch(methods)
 case 1:
 {
 struct node *h=NULL;
-h=Read(h);
+h=ReadF(h);
 PNP(h); 
 }
 break;
@@ -126,7 +126,7 @@ break;
 case 4:
 {
 struct node *h=NULL;
-h=Read(h);
+h=ReadF(h);
 RR(h); 
 }						
 break;
@@ -155,14 +155,14 @@ break;
 }
 }
 
-struct node * Creat_Node(int Burest, int arrivalT, int Priority,intIndex)
+struct node * Create_Node(int bur, int arr, int pri,int ind)
 {
 	struct node *t =NULL;
 	t=(struct node*)malloc(sizeof(node));
-	t->burst=Burest;
-	t->arrival=arrivalT;
-	t->priority=Priority;
-	t->index=Index;
+	t->burst=bur;
+	t->arrival=arr;
+	t->priority=pri;
+	t->index=ind;
 	t->next=NULL;
 	return t;
 }
@@ -253,7 +253,7 @@ string toString(double x) {
    //From integer to String
 }
 
-void SwapFCFS (struct node * n1, struct node *n2)
+void SwapFirstComeFirstServed (struct node * n1, struct node *n2)
 {   
 
 
@@ -275,7 +275,11 @@ int Burest,arrivalT,Priority,Index;
 
 
 
-struct node * bubble_sortFCFS(struct node *h)
+
+
+
+
+struct node * bubble_sortFCFSd(struct node *h)
 {
 			struct node *right_Pointer = NULL; 
 	        struct node *left_Pointer;
@@ -288,7 +292,7 @@ struct node * bubble_sortFCFS(struct node *h)
 		{
 			if (left_Pointer->arrival> left_Pointer->next->arrival) 
 			{
-				SwapFCFS(left_Pointer, left_Pointer->next); 
+				SwapFirstComeFirstServed(left_Pointer, left_Pointer->next); 
                 swap = 1; 
 			}
 			left_Pointer = left_Pointer->next;
@@ -298,10 +302,12 @@ struct node * bubble_sortFCFS(struct node *h)
 
 	}while(swap);
 }
-		right_Pointer = left_Pointer;
 
-	}while(swap);
-}
+
+
+
+
+
 
 
 void FCFS(struct node *h)
@@ -369,7 +375,7 @@ struct node * BubbleSortPNP(struct node *h)
 		{
 			if (Left_Pointer->burst> Left_Pointer->next->burst) 
 			{
-				SwapFCFS(Left_Pointer, Left_Pointer->next); 
+				SwapFirstComeFirstServed(Left_Pointer, Left_Pointer->next); 
                 swap = 1; 
 			}
 			Left_Pointer = Left_Pointer->next;
@@ -433,13 +439,13 @@ void SJF(struct node * h)
 
 
 
-void swap (struct node * n1, struct node *n2)
+void the_swap (struct node * n1, struct node *n2)
 {
-int Burest,arrivalT,Priority,Index;
-	arrivalT=n1->arrival;
-	Burest= n1->burst;
-	Index=n1->index;
-	Priority=n1->priority;
+	int bur,arr,pri,ind;
+	bur= n1->burst;
+	arr=n1->arrival;
+	pri=n1->priority;
+	ind=n1->index;
 	n1->burst= n2 -> burst;
 	n1->arrival= n2 -> arrival;
 	n1->priority= n2 -> priority;
@@ -449,7 +455,6 @@ int Burest,arrivalT,Priority,Index;
 	n2 -> priority= pri;
 	n2 -> index= ind;
 }
-
 struct node *PbubbleSort(struct node *h)
 {
 	struct node *right_pointer = NULL; 
@@ -464,7 +469,7 @@ struct node *PbubbleSort(struct node *h)
 		{
 			if (left_pinter->priority> left_pinter->next->priority) 
 			{
-				swap(left_pinter, left_pinter->next); 
+				the_swap(left_pinter, left_pinter->next); 
                 swap = 1; 
 			}
 			left_pinter = left_pinter->next;
@@ -482,7 +487,7 @@ void PNP(struct node *h)
 	struct node * t=NULL;
 	struct node * t1=NULL;
 		int s=size(h);
-	t=bubble_sortFCFS(h);	
+	t=bubble_sortFCFSd(h);	
 	std::string out=" \n Method: Priority Scheduling (Non-Preemptive) \n the wating time of the process: \n";
 	while(h!=NULL)
 	{
@@ -529,7 +534,7 @@ void RR(struct node *h)
 	int s=size(h);
 	int TQ =2;
 	struct node * t=h;
-	t=bubble_sortFCFS(h);
+	t=bubble_sortFCFSd(h);
 	
 	double sum=0,tsum=0;
 	double avrage;
